@@ -1,0 +1,17 @@
+[package]
+name = "polynomials"
+version = "0.1.0"
+authors = ["Sait Imamoglu <nuggez@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+pairing = {package = "pairing_ce", version = "0.21.*"}
+
+
+num_cpus = "1"
+futures= {package = "futures", version = "0.3", default_features = false, features = ["executor", "thread-pool"]}
+crossbeam = {version = "0.7"}
+rand = "0.4"
+cfg-if = "0.1"
