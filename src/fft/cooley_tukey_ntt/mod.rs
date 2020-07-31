@@ -8,6 +8,7 @@ pub trait CTPrecomputations<F: PrimeField>: Send + Sync {
     fn new_for_domain_size(size: usize) -> Self;
     fn bit_reversed_omegas(&self) -> &[F];
     fn domain_size(&self) -> usize;
+    fn new_for_domain_size_worker(size: usize, worker: &Worker) -> Self;
 }
 
 #[inline(always)]
@@ -93,6 +94,12 @@ impl<F: PrimeField> CTPrecomputations<F> for BitReversedOmegas<F>{
     fn domain_size(&self) -> usize {
         self.domain_size
     }
+
+    fn new_for_domain_size_worker(size: usize, worker: &Worker) -> Self{
+        let domain = Domain::<F>::new_for_size(size as u64).expect("domain must exist");
+        Self::new_for_domain(&domain, &worker)
+    }
+
 }
 
 
@@ -153,6 +160,11 @@ impl<F: PrimeField> CTPrecomputations<F> for OmegasInvBitreversed<F> {
 
     fn domain_size(&self) -> usize {
         self.domain_size
+    }
+
+    fn new_for_domain_size_worker(size: usize, worker: &Worker) -> Self {
+        let domain = Domain::<F>::new_for_size(size as u64).expect("domain must exist");
+        Self::new_for_domain(&domain, &worker)
     }
 }
 

@@ -28,9 +28,14 @@ pub(crate) fn best_fft<F: PrimeField>(a: &mut [F], worker: &Worker, omega: &F, l
         worker.log_num_cpus()
     };
 
-    if log_cpus == 0 || log_n <= log_cpus {
+    // println!("log_cpus {} log_n {}, use cpu hint {}", log_cpus, log_n, use_cpus_hint.unwrap_or(0));
+
+    // if log_cpus == 0 || log_n <= log_cpus {
+    if log_n <= log_cpus {
+        // println!("serial fft");
         serial_fft(a, omega, log_n);
     } else {
+        // println!("parallel fft");
         parallel_fft(a, worker, omega, log_n, log_cpus);
     }
 }
